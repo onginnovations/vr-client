@@ -175,6 +175,8 @@ public class InputController : MonoBehaviour
 
     private Vector3 lastPos;
     private Vector3 currentPos;
+    private Vector3 lastRot;
+    private Vector3 currentRot;
     
     private void Awake()
     {
@@ -182,7 +184,11 @@ public class InputController : MonoBehaviour
         player = playerInput.Player;
     }
 
-    private void Start() { lastPos = player.MoveHMD.ReadValue<Vector3>(); }
+    private void Start()
+    {
+        lastPos = player.MoveHMD.ReadValue<Vector3>();
+        lastRot = player.RotateHMD.ReadValue<Vector3>();
+    }
 
     public static void GetPlayerActions(ref DCLPlayerInput.PlayerActions actions) => actions = player;
 
@@ -197,8 +203,7 @@ public class InputController : MonoBehaviour
             Stop_Measurable(measurableActions);
             return;
         }
-        UpdateHeadset();
-        
+       
         switch (inputTypeMode)
         {
             case InputTypeMode.OFF:
@@ -219,13 +224,10 @@ public class InputController : MonoBehaviour
                 Update_Measurable(measurableActions);
                 break;
         }
-        lastPos = player.MoveHMD.ReadValue<Vector3>();
+        
     }
 
-    private void UpdateHeadset()
-    {
-        currentPos = player.MoveHMD.ReadValue<Vector3>() - lastPos;
-    }
+    
 
     /// <summary>
     /// Map the trigger actions to inputs + modifiers and check if their events must be triggered
@@ -246,9 +248,9 @@ public class InputController : MonoBehaviour
                         break;
 
                     //Disable until the fine-tuning is ready
-                    if (ENABLE_THIRD_PERSON_CAMERA)
-                        InputProcessor.FromKey(action, KeyCode.V,
-                            modifiers: InputProcessor.Modifier.FocusNotInInput);
+                    // if (ENABLE_THIRD_PERSON_CAMERA)
+                    //     InputProcessor.FromKey(action, KeyCode.V,
+                    //         modifiers: InputProcessor.Modifier.FocusNotInInput);
                     break;
                 case DCLAction_Trigger.CursorUnlock:
                     InputProcessor.FromMouseButtonUp(action, 1, InputProcessor.Modifier.NeedsPointerLocked);
@@ -522,8 +524,8 @@ public class InputController : MonoBehaviour
                     break;
                 case DCLAction_Hold.FreeCameraMode:
                     //Disable until the fine-tuning is ready
-                    if (ENABLE_THIRD_PERSON_CAMERA)
-                        InputProcessor.FromKey(action, KeyCode.Y, InputProcessor.Modifier.NeedsPointerLocked);
+                    // if (ENABLE_THIRD_PERSON_CAMERA)
+                    //     InputProcessor.FromKey(action, KeyCode.Y, InputProcessor.Modifier.NeedsPointerLocked);
                     break;
                 case DCLAction_Hold.VoiceChatRecording:
                     // Push to talk functionality only triggers if no modifier key is pressed
@@ -596,11 +598,12 @@ public class InputController : MonoBehaviour
             switch (action.GetDCLAction())
             {
                 case DCLAction_Measurable.CharacterXAxis:
-                    InputProcessor.FromAxis(action, player.Move.ReadValue<Vector2>().x + currentPos.x, 
+                    InputProcessor.FromAxis(action, player.Move.ReadValue<Vector2>().x , 
                         InputProcessor.Modifier.FocusNotInInput | InputProcessor.Modifier.NotInStartMenu);
+                    
                     break;
                 case DCLAction_Measurable.CharacterYAxis:
-                    InputProcessor.FromAxis(action, player.Move.ReadValue<Vector2>().y + currentPos.z,
+                    InputProcessor.FromAxis(action, player.Move.ReadValue<Vector2>().y ,
                         InputProcessor.Modifier.FocusNotInInput | InputProcessor.Modifier.NotInStartMenu);
                     break;
                 case DCLAction_Measurable.CameraXAxis:
@@ -608,8 +611,8 @@ public class InputController : MonoBehaviour
                         InputProcessor.Modifier.NeedsPointerLocked | InputProcessor.Modifier.RequiresPointer);
                     break;
                 case DCLAction_Measurable.CameraYAxis:
-                    InputProcessor.FromAxis(action, player.Look.ReadValue<Vector2>().y
-                        , InputProcessor.Modifier.NeedsPointerLocked | InputProcessor.Modifier.RequiresPointer);
+                    InputProcessor.FromAxis(action, player.Look.ReadValue<Vector2>().y,
+                        InputProcessor.Modifier.NeedsPointerLocked | InputProcessor.Modifier.RequiresPointer);
                     break;
                 case DCLAction_Measurable.MouseWheel:
                     InputProcessor.FromAxis(action, player.ScrollMouse.ReadValue<float>(), modifiers: InputProcessor.Modifier.FocusNotInInput);
