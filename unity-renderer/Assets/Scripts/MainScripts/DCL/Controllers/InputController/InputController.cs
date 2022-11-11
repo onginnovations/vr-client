@@ -5,6 +5,8 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
+using UnityEngine.XR;
+using InputDevice = UnityEngine.XR.InputDevice;
 
 /// <summary>
 /// Mapping for Trigger actions
@@ -188,6 +190,14 @@ public class InputController : MonoBehaviour
     {
         lastPos = player.MoveHMD.ReadValue<Vector3>();
         lastRot = player.RotateHMD.ReadValue<Vector3>();
+        InputDevices.deviceDisconnected += DeviceDisconnected;
+        InputDevices.deviceConnected += DeviceConnected;
+
+    }
+    private void DeviceConnected(InputDevice obj) { Debug.Log($"{obj.name} was connected. {obj.characteristics.ToString()}"); }
+    private void DeviceDisconnected(InputDevice obj)
+    {
+        Debug.Log($"{obj.name} was disconnected. {obj.characteristics.ToString()}");
     }
 
     public static void GetPlayerActions(ref DCLPlayerInput.PlayerActions actions) => actions = player;
@@ -607,6 +617,7 @@ public class InputController : MonoBehaviour
                         InputProcessor.Modifier.FocusNotInInput | InputProcessor.Modifier.NotInStartMenu);
                     break;
                 case DCLAction_Measurable.CameraXAxis:
+                    
                     InputProcessor.FromAxis(action, player.Look.ReadValue<Vector2>().x,
                         InputProcessor.Modifier.NeedsPointerLocked | InputProcessor.Modifier.RequiresPointer);
                     break;

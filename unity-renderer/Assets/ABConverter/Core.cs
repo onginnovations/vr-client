@@ -804,7 +804,7 @@ namespace DCL.ABConverter
             env.assetDatabase.MoveAsset(finalDownloadedPath, Config.DOWNLOADED_PATH_ROOT);
 
             // 1. Convert flagged folders to asset bundles only to automatically get dependencies for the metadata
-            manifest = env.buildPipeline.BuildAssetBundles(settings.finalAssetBundlePath, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.WebGL);
+            manifest = env.buildPipeline.BuildAssetBundles(settings.finalAssetBundlePath, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.Android);
 
             if (manifest == null)
             {
@@ -820,7 +820,7 @@ namespace DCL.ABConverter
             env.assetDatabase.SaveAssets();
 
             // 3. Convert flagged folders to asset bundles again but this time they have the metadata file inside
-            manifest = env.buildPipeline.BuildAssetBundles(settings.finalAssetBundlePath, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.WebGL);
+            manifest = env.buildPipeline.BuildAssetBundles(settings.finalAssetBundlePath, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.Android);
 
             logBuffer += $"Generating asset bundles at path: {settings.finalAssetBundlePath}\n";
 

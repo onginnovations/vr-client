@@ -106,24 +106,24 @@ public class WebSocketCommunication : IKernelCommunication
                 {
                     // DataStore.i.wsCommunication.communicationReady.Set(false);
                     
-                    ws.Stop();
-                    ws.WebSocketServices.Clear();
-                    
-                    //ws.WebSocketServices.Clear();
-                    
-                    queuedMessages.Clear();
-                    //service.Context.WebSocket.Connect();
-                   
-                   
-                    service = null;
-                    ws = null;
-                    requestStop = false;
-                    queuedMessagesDirty = false;
-                    
-                   
-                    UnityThread.executeCoroutine(
-                        RestartCommunication(port, maxPort, withSSL)
-                    );
+                    // ws.Stop();
+                    // ws.WebSocketServices.Clear();
+                    //
+                    // //ws.WebSocketServices.Clear();
+                    //
+                    // queuedMessages.Clear();
+                    // //service.Context.WebSocket.Connect();
+                    //
+                    //
+                    // service = null;
+                    // ws = null;
+                    // requestStop = false;
+                    // queuedMessagesDirty = false;
+                    //
+                    //
+                    // UnityThread.executeCoroutine(
+                    //     RestartCommunication(port, maxPort, withSSL)
+                    // );
                     
 
                 };

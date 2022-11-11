@@ -121,6 +121,6 @@ namespace DCL
         }
 
         [MenuItem("Decentraland/Asset Bundle Builder/Only Build Bundles")]
-        public static void OnlyBuildBundles() { BuildPipeline.BuildAssetBundles(ABConverter.Config.ASSET_BUNDLES_PATH_ROOT, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.WebGL); }
+        public static void OnlyBuildBundles() { BuildPipeline.BuildAssetBundles(ABConverter.Config.ASSET_BUNDLES_PATH_ROOT, BuildAssetBundleOptions.UncompressedAssetBundle | BuildAssetBundleOptions.ForceRebuildAssetBundle, BuildTarget.Android); }
     }
 }

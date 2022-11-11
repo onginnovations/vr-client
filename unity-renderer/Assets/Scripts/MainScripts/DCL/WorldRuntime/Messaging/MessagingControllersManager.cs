@@ -11,7 +11,7 @@ namespace DCL
     {
         public static bool VERBOSE = false;
         
-        private const float MAX_GLOBAL_MSG_BUDGET = 0.008f;
+        private const float MAX_GLOBAL_MSG_BUDGET = 0.01f;
         private const float MAX_SYSTEM_MSG_BUDGET_FOR_FAR_SCENES = 0.003f;
 
         private const float GLTF_BUDGET_MAX = 0.036f;
@@ -286,7 +286,7 @@ namespace DCL
 
                 timeBudgetCounter =
                     CommonScriptableObjects.rendererState.Get() ? MAX_GLOBAL_MSG_BUDGET : 3*MAX_GLOBAL_MSG_BUDGET;
-                UnityThread.timeBudgetPerFrame = CommonScriptableObjects.rendererState.Get() ? 0.01f : 0.2f;
+                UnityThread.timeBudgetPerFrame = CommonScriptableObjects.rendererState.Get() ? 0.015f : 0.25f;
 
                 for (int i = 0; i < busesToProcessCount; ++i)
                 {
@@ -325,7 +325,7 @@ namespace DCL
         {
             if (!bus.enabled || bus.pendingMessagesCount <= 0)
                 return false;
-
+        
             float startTime = Time.realtimeSinceStartup;
 
             float timeBudget = timeBudgetCounter;

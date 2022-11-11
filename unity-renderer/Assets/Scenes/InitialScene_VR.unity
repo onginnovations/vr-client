@@ -863,7 +863,7 @@ MonoBehaviour:
   webSocketSSL: 0
   kernelVersion: 1.0.0-3387732730.commit-bc98547
   useCustomContentServer: 0
-  customContentServerUrl: http://localhost:1338/
+  customContentServerUrl: http://10.0.0.82:1338/
   baseUrlMode: 0
   customURL: https://play.decentraland.org/?
   network: 0
@@ -1199,7 +1199,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1755198060}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bf98dd1206224111a38765365e98e207, type: 3}
   m_Name: 
@@ -1918,7 +1918,6 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1718642565927999619}
-  - {fileID: 224179540875204341}
   - {fileID: 224209099805378876}
   - {fileID: 224179540126816254}
   - {fileID: 224209100659768884}
@@ -2230,8 +2229,13 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224179540875204341}
+  - component: {fileID: 1535822764630806}
+  - component: {fileID: 1535822764630805}
   - component: {fileID: 222163621416271409}
+  - component: {fileID: 1535822764630804}
   - component: {fileID: 114949863448033987}
+  - component: {fileID: 1535822764630803}
+  - component: {fileID: 1535822764630802}
   m_Layer: 5
   m_Name: DecentralandLoginBrowser
   m_TagString: Untagged
@@ -2239,6 +2243,93 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &1535822764630802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535822764630801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2fcaf896491074042b7ed7684454a412, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  eventsToReceive: 1
+  debounceThreshold: 0.01
+--- !u!114 &1535822764630803
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535822764630801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ff4e3b9019304b5aaec5664de0778d21, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1535822764630804
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535822764630801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_IgnoreReversedGraphics: 1
+  m_BlockingObjects: 0
+  m_BlockingMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+--- !u!114 &1535822764630805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535822764630801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_UiScaleMode: 0
+  m_ReferencePixelsPerUnit: 100
+  m_ScaleFactor: 1
+  m_ReferenceResolution: {x: 800, y: 600}
+  m_ScreenMatchMode: 0
+  m_MatchWidthOrHeight: 0
+  m_PhysicalUnit: 3
+  m_FallbackScreenDPI: 96
+  m_DefaultSpriteDPI: 96
+  m_DynamicPixelsPerUnit: 1
+  m_PresetInfoIsWorld: 1
+--- !u!223 &1535822764630806
+Canvas:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1535822764630801}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_RenderMode: 2
+  m_Camera: {fileID: 0}
+  m_PlaneDistance: 100
+  m_PixelPerfect: 0
+  m_ReceivesEvents: 1
+  m_OverrideSorting: 0
+  m_OverridePixelPerfect: 0
+  m_SortingBucketNormalizedSize: 0
+  m_AdditionalShaderChannelsFlag: -1
+  m_SortingLayerID: -1524345185
+  m_SortingOrder: 0
+  m_TargetDisplay: 0
 --- !u!1 &1535823644156442
 GameObject:
   m_ObjectHideFlags: 0
@@ -2584,8 +2675,8 @@ MonoBehaviour:
   HoveringEnabled: 1
   ScrollingEnabled: 0
   DragThreshold: 20
-  RemoteDebuggingEnabled: 1
-  LogConsoleMessages: 1
+  RemoteDebuggingEnabled: 0
+  LogConsoleMessages: 0
   _cachedVideoLayer: {fileID: 0}
   _cachedView: {fileID: 0}
   _pointerInputDetectorMonoBehaviour: {fileID: 0}
@@ -2721,7 +2812,7 @@ RectTransform:
   - {fileID: 224664684902618570}
   - {fileID: 1661546050186877014}
   m_Father: {fileID: 2017281303}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
@@ -2736,19 +2827,19 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1535822764630801}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.398}
-  m_LocalScale: {x: 0.70515, y: 0.70515, z: 0.70515}
+  m_LocalPosition: {x: 0, y: 0, z: 1.601}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224970607577897809}
   - {fileID: 224664685786404033}
   - {fileID: 1661546048918264157}
-  m_Father: {fileID: 2017281303}
-  m_RootOrder: 1
+  m_Father: {fileID: 0}
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0.020000458, y: 1.704998}
-  m_SizeDelta: {x: 1.9199982, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
+  m_AnchoredPosition: {x: 0.0206, y: 0.85}
+  m_SizeDelta: {x: 2.7648, y: 1.4088}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224209099805378876
 RectTransform:
@@ -2762,7 +2853,7 @@ RectTransform:
   m_LocalScale: {x: 0.68813, y: 0.6881301, z: 0.6881301}
   m_Children: []
   m_Father: {fileID: 2017281303}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 35.3, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
@@ -2781,7 +2872,7 @@ RectTransform:
   m_LocalScale: {x: 0.68813, y: 0.6881301, z: 0.6881301}
   m_Children: []
   m_Father: {fileID: 2017281303}
-  m_RootOrder: 4
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 35.3, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}

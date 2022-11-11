@@ -18,7 +18,7 @@
                     "type": "Value",
                     "id": "de3fc6e4-219a-4c02-a847-56f4a50027a4",
                     "expectedControlType": "Vector2",
-                    "processors": "StickDeadzone(min=0.25)",
+                    "processors": "",
                     "interactions": ""
                 },
                 {
@@ -216,9 +216,9 @@
                 {
                     "name": "",
                     "id": "3e5f5442-8668-4b27-a940-df99bad7e831",
-                    "path": "<XRController>{RightHand}/thumbstick",
+                    "path": "<XRController>{RightHand}/joystick",
                     "interactions": "",
-                    "processors": "StickDeadzone",
+                    "processors": "StickDeadzone(min=0.25)",
                     "groups": "XR",
                     "action": "Look",
                     "isComposite": false,

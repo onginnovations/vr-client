@@ -120,7 +120,7 @@ namespace DCL
             if (sharedInstance == null)
                 sharedInstance = this;
             DontDestroyOnLoad(this);
-            DontDestroyOnLoad(DCLWebview);
+            DontDestroyOnLoad(DCLWebview.gameObject);
             DataStore.i.debugConfig.soloScene = debugConfig.soloScene;
             
             
@@ -132,7 +132,7 @@ namespace DCL
             DataStore.i.debugConfig.msgStepByStep = debugConfig.msgStepByStep;
             DataStore.i.performance.multithreading.Set(multithreaded);
             #if UNITY_ANDROID && !UNITY_EDITOR
-            if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(999);
+            if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(500);
             #else
             if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(999);
             #endif
@@ -504,7 +504,7 @@ openInternalBrowser = true;
                 }
 
 
-                DCLWebview.transform.SetParent(canvas.transform, false);
+                //DCLWebview.transform.SetParent(canvas.transform, false);
                 DCLWebview.Resolution = 450;
 
 

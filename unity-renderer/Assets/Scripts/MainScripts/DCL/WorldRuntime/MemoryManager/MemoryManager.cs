@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using DCL.Configuration;
 using UnityEngine;
 using UnityEngine.Profiling;
 
@@ -7,7 +8,9 @@ namespace DCL
 {
     public class MemoryManager : IMemoryManager
     {
-        private const long MAX_USED_MEMORY = 2000 * 1024 * 1024; // 2GB
+        private const long MAX_USED_MEMORY = 2020 * 1024 * 1024; // 1.6GB
+        private const long MED_USED_MEMORY = 1800 * 1024 * 1024;
+        private const long LOW_USED_MEMORY = 1500 * 1024 * 1024;
         private const float TIME_FOR_NEW_MEMORY_CHECK = 60.0f;
 
         private Coroutine autoCleanupCoroutine;
@@ -29,6 +32,7 @@ namespace DCL
             this.memoryThresholdForCleanup = MAX_USED_MEMORY;
             this.cleanupInterval = TIME_FOR_NEW_MEMORY_CHECK;
             autoCleanupCoroutine = CoroutineStarter.Start(AutoCleanup());
+            CoroutineStarter.Start(FastMemCheck());
         }
 
         public void Dispose()
@@ -62,6 +66,44 @@ namespace DCL
 
                 yield return new WaitForSecondsRealtime(this.cleanupInterval);
             }
+        }
+
+        IEnumerator FastMemCheck()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            while(true){
+                long usedMemory = Profiler.GetTotalAllocatedMemoryLong() + Profiler.GetMonoUsedSizeLong() + Profiler.GetAllocatedMemoryForGraphicsDriver();
+
+                if (usedMemory < LOW_USED_MEMORY)
+                {
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB);
+                    DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB);
+                    QualitySettings.masterTextureLimit = 0;
+                }
+                else if ( usedMemory < MED_USED_MEMORY)
+                {
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/2);
+                    DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/2);
+                    QualitySettings.masterTextureLimit = 1;
+                }
+                else if (usedMemory < MAX_USED_MEMORY)
+                {
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/4);
+                    DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/4);
+                    QualitySettings.masterTextureLimit = 2;
+                }
+                else
+                {
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/8);
+                    DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/8);
+                    QualitySettings.masterTextureLimit = 3;
+                }
+                Debug.Log($"Memory: {usedMemory/1000000}Mb, gltf {DataStore.i.textureConfig.gltfMaxSize.Get()}, general {DataStore.i.textureConfig.generalMaxSize.Get()}, textLevel {QualitySettings.masterTextureLimit}");
+
+                    yield return  new WaitForSeconds(5);
+            }
+#endif
+            yield return null;
         }
 
         public IEnumerator CleanPoolManager(bool forceCleanup = false, bool immediate = false)
