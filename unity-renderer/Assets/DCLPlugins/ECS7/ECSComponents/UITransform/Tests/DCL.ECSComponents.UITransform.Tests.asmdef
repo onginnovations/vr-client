@@ -1,5 +1,6 @@
 {
     "name": "DCL.ECSComponents.UITransform.Tests",
+    "rootNamespace": "",
     "references": [
         "GUID:f3eba44237ea4969b29674e332426425",
         "GUID:9cccce9925d3495d8a5e4fa5b25f54a5",
@@ -12,7 +13,9 @@
         "GUID:a881b57670b1d2747a6d7f9e32b63230"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Android"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

@@ -1,5 +1,6 @@
 {
     "name": "HelpAndSupportHUDTests",
+    "rootNamespace": "",
     "references": [
         "GUID:ef84d7ce90ba34f07be26ace428e9bc8",
         "GUID:a6361293c4e094e4ca3cf05e62b59bc4",
@@ -11,7 +12,9 @@
         "GUID:2bafac87e7f4b9b418d9448d219b01ab"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Android"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

@@ -1,5 +1,6 @@
 {
     "name": "DCL.ECSComponents.UIBackground.Tests",
+    "rootNamespace": "",
     "references": [
         "GUID:f3eba44237ea4969b29674e332426425",
         "GUID:9cccce9925d3495d8a5e4fa5b25f54a5",
@@ -14,7 +15,9 @@
         "GUID:2bafac87e7f4b9b418d9448d219b01ab"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Android"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [

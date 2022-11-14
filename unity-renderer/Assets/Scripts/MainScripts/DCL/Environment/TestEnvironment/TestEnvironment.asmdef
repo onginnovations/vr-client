@@ -33,7 +33,9 @@
         "GUID:b75dc662b69c26c40bf39793301425c5"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [],
+    "excludePlatforms": [
+        "Android"
+    ],
     "allowUnsafeCode": false,
     "overrideReferences": true,
     "precompiledReferences": [
