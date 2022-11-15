@@ -121,9 +121,9 @@ public class WebSocketCommunication : IKernelCommunication
                     // queuedMessagesDirty = false;
                     //
                     //
-                    // UnityThread.executeCoroutine(
-                    //     RestartCommunication(port, maxPort, withSSL)
-                    // );
+                    UnityThread.executeCoroutine(
+                        RestartCommunication(port, maxPort, withSSL)
+                    );
                     
 
                 };
@@ -159,9 +159,9 @@ public class WebSocketCommunication : IKernelCommunication
 
     private IEnumerator RestartCommunication(int port, int maxPort, bool withSSL)
     {
-        yield return new WaitForSeconds(3);
-        DataStore.i.wsCommunication.communicationReady.Set(false);
-        DataStore.i.common.isApplicationQuitting.Set(false);
+        // yield return new WaitForSeconds(3);
+        // DataStore.i.wsCommunication.communicationReady.Set(false);
+        // DataStore.i.common.isApplicationQuitting.Set(false);
         //
         // yield return new WaitForSeconds(3);
         // InitMessageTypeToBridgeName();
