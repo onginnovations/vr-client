@@ -20,10 +20,10 @@ namespace DCL.Camera
             switch (mode)
             {
                 case CameraMode.ModeId.FirstPerson:
-                    eventCameraFadeIn.Play(true);
+                    //eventCameraFadeIn.Play(true);
                     break;
                 case CameraMode.ModeId.ThirdPerson:
-                    eventCameraFadeOut.Play(true);
+                    //eventCameraFadeOut.Play(true);
                     break;
                 default:
                     break;
