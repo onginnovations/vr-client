@@ -29,6 +29,7 @@ namespace DCL
         private Transform mixedRealityPlayspace;
         private Transform cameraParent;
         private bool isDisposed;
+        private BaseVariable<FeatureFlag> featureFlags => DataStore.i.featureFlags.flags;
         protected virtual void Awake()
         {
             UnityThread.initUnityThread(true);
@@ -37,8 +38,9 @@ namespace DCL
                 Utils.SafeDestroy(this);
                 return;
             }
-
+            
             i = this;
+           
             mixedRealityPlayspace = VRPlaySpace.i.transform;
             mixedRealityPlayspace.parent = cameraParent;
             mixedRealityPlayspace.localPosition = new Vector3(0f, -0.85f, 0f);;
@@ -64,7 +66,11 @@ namespace DCL
             SetupPlugins();
             InitializeCommunication();
         }
-
+        private void FeatureFlagsReady(FeatureFlag current, FeatureFlag previous)
+        {
+            DCLVideoTexture.videoPluginWrapperBuilder = VideoProviderFactory.CreateVideoProvider;
+            DataStore.i.featureFlags.flags.OnChange -= FeatureFlagsReady;
+        }
         protected virtual void InitializeDataStore()
         {
 
