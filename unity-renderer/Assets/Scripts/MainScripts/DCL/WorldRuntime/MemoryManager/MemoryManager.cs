@@ -6,6 +6,7 @@ using DCL.SettingsCommon.SettingsControllers.SpecificControllers;
 using UnityEngine;
 using UnityEngine.Profiling;
 
+
 namespace DCL
 {
     public class MemoryManager : IMemoryManager
@@ -14,7 +15,7 @@ namespace DCL
         private const long MED_USED_MEMORY = 1800 * 1024 * 1024;
         private const long LOW_USED_MEMORY = 1500 * 1024 * 1024;
         private const float TIME_FOR_NEW_MEMORY_CHECK = 60.0f;
-        private ScenesLoadRadiusControlController sceneLoadRadiusSettingController;
+        // private ScenesLoadRadiusControlController sceneLoadRadiusSettingController;
 
         private Coroutine autoCleanupCoroutine;
 
@@ -34,12 +35,12 @@ namespace DCL
         {
             this.memoryThresholdForCleanup = MAX_USED_MEMORY;
             this.cleanupInterval = TIME_FOR_NEW_MEMORY_CHECK;
-            sceneLoadRadiusSettingController = ScriptableObject.FindObjectOfType<ScenesLoadRadiusControlController>();
-            if (sceneLoadRadiusSettingController == null)
-            {
-                sceneLoadRadiusSettingController = ScriptableObject.CreateInstance<ScenesLoadRadiusControlController>();    
-                sceneLoadRadiusSettingController.Initialize();
-            }
+            // sceneLoadRadiusSettingController = ScriptableObject.FindObjectOfType<ScenesLoadRadiusControlController>();
+            // if (sceneLoadRadiusSettingController == null)
+            // {
+            //     sceneLoadRadiusSettingController = ScriptableObject.CreateInstance<ScenesLoadRadiusControlController>();    
+            //     sceneLoadRadiusSettingController.Initialize();
+            // }
             autoCleanupCoroutine = CoroutineStarter.Start(AutoCleanup());
             CoroutineStarter.Start(FastMemCheck());
         }
@@ -79,7 +80,7 @@ namespace DCL
 
         IEnumerator FastMemCheck()
         {
-#if UNITY_ANDROID && !UNITY_EDITOR
+//#if UNITY_ANDROID && !UNITY_EDITOR
             while(true){
                 long usedMemory = Profiler.GetTotalAllocatedMemoryLong() + Profiler.GetMonoUsedSizeLong() + Profiler.GetAllocatedMemoryForGraphicsDriver();
 
@@ -88,34 +89,35 @@ namespace DCL
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB);
                     QualitySettings.masterTextureLimit = 0;
-                    sceneLoadRadiusSettingController.UpdateSetting(4.0f);
+                    //sceneLoadRadiusSettingController.UpdateSetting(4.0f);
                 }
                 else if ( usedMemory < MED_USED_MEMORY)
                 {
-                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB);
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/2);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB);
                     QualitySettings.masterTextureLimit = 1;
-                    sceneLoadRadiusSettingController.UpdateSetting(3.0f);
+                    //sceneLoadRadiusSettingController.UpdateSetting(3.0f);
                 }
                 else if (usedMemory < MAX_USED_MEMORY)
                 {
-                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/2);
+                    DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/4);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/2);
                     QualitySettings.masterTextureLimit = 2;
-                    sceneLoadRadiusSettingController.UpdateSetting(2.0f);
+                    //sceneLoadRadiusSettingController.UpdateSetting(2.0f);
                 }
                 else
                 {
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/8);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/8);
                     QualitySettings.masterTextureLimit = 4;
-                    sceneLoadRadiusSettingController.UpdateSetting(1.0f);
+                    //sceneLoadRadiusSettingController.UpdateSetting(1.0f);
+                    OnCriticalMemory?.Invoke();
                 }
                 Debug.Log($"Memory: {usedMemory/1000000}Mb, gltf {DataStore.i.textureConfig.gltfMaxSize.Get()}, general {DataStore.i.textureConfig.generalMaxSize.Get()}, textLevel {QualitySettings.masterTextureLimit}");
 
                     yield return  new WaitForSeconds(5);
             }
-#endif
+//#endif
             yield return null;
         }
 

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using DCL.Components;
 using DCL.Interface;
@@ -6,6 +7,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using Vuplex.WebView;
+
 using QualitySettings = UnityEngine.QualitySettings;
 
 namespace DCL
@@ -152,7 +154,19 @@ namespace DCL
             StandaloneWebView.SetCommandLineArguments("--disable-web-security");
             optionsWeview.gameObject.SetActive(false);
             keyboardOptions.gameObject.SetActive(false);
+            //
+            //
+            // openInternalBrowser = false;
+
 #elif UNITY_ANDROID
+            // AndroidWebView.GloballySetUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
+            // AndroidWebView.SetIgnoreCertificateErrors(true);
+            // AndroidWebView.SetAutoplayEnabled(true);
+            // AndroidWebView.SetStorageEnabled(true);
+            // AndroidWebView.SetDeepLinksEnabled(true);
+        
+           
+            
             AndroidGeckoWebView.GloballySetUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
             Web.SetUserAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36");
             Web.SetStorageEnabled(true); 
@@ -160,9 +174,8 @@ namespace DCL
             // Web.EnableRemoteDebugging();
             Web.SetAutoplayEnabled(true);
             AndroidGeckoWebView.SetIgnoreCertificateErrors(true);
-            // AndroidGeckoWebView.GloballySetUserAgent(false);
             AndroidGeckoWebView.SetCameraAndMicrophoneEnabled(true);
-
+            //
             AndroidGeckoWebView.SetAutoplayEnabled(true);
             AndroidGeckoWebView.SetStorageEnabled(true);
             AndroidGeckoWebView.SetEnterpriseRootsEnabled(true);
@@ -191,7 +204,7 @@ namespace DCL
                 // 
                 
             });
-            
+
 #endif
 
 
@@ -208,10 +221,11 @@ namespace DCL
                 webSocketSSL = false;
                 baseUrlMode = BaseUrl.ZONE;
                 parcelRadiusToLoad = 3;
-                
+                StartCoroutine(PurgeBrowserHistory());
                 
 #else
-                openInternalBrowser = false;
+                
+                openInternalBrowser = true;
                 webSocketSSL = true;
                 baseUrlMode = BaseUrl.ORG;
                 parcelRadiusToLoad = 4;
@@ -221,6 +235,7 @@ namespace DCL
                 startInCoords = Vector2.zero;
                 disableAssetBundles = true;
             }
+            // Environment.i.platform.memoryManager.OnCriticalMemory += ClearBrowserHistory;
             useInternalBrowser.isOn = openInternalBrowser;
             WebInterface.openURLInternal = openInternalBrowser;
             if (openInternalBrowser)
@@ -236,15 +251,15 @@ namespace DCL
                 keyboardDCL.gameObject.SetActive((false));
                 
             }
-            keyboardOptions.InputReceived += (sender, key) =>
-            {
-                optionsWeview.WebView.HandleKeyboardInput(key.Value);
-            };
-            keyboardDCL.InputReceived += (sender, key) =>
-            {
-                DCLWebview.WebView.HandleKeyboardInput(key.Value);
-                
-            };
+            // keyboardOptions.InputReceived += (sender, key) =>
+            // {
+            //     optionsWeview.WebView.HandleKeyboardInput(key.Value);
+            // };
+            // keyboardDCL.InputReceived += (sender, key) =>
+            // {
+            //     DCLWebview.WebView.HandleKeyboardInput(key.Value);
+            //     
+            // };
         
             lock (DataStore.i.wsCommunication.communicationReady)
             {
@@ -471,9 +486,39 @@ openInternalBrowser = true;
                 DCLWebview.InitialUrl = webViewURL;
                 
                 //DCLWebview.WebView.Reload();
-                if (DCLWebview.WebView!= null && DCLWebview.WebView.IsInitialized) { 
-                   
-                   
+                
+                 if (DCLWebview.WebView!= null && DCLWebview.WebView.IsInitialized) { 
+                     
+                     ////###This section helps with the plain AndroidWebview////
+                //     #if UNITY_ANDROID && !UNITY_EDITOR
+                //     var androidWebView = DCLWebview.WebView as AndroidWebView;
+                //     androidWebView.SetMixedContentMode(MixedContentMode.AlwaysAllow);
+                //     var nativeWebView = androidWebView.GetNativeWebView();
+                //     // Most native WebView methods must be called on the Android UI thread.
+                //     AndroidWebView.RunOnAndroidUIThread(() => {
+                //         // Call android.webkit.WebView.getSettings().
+                //         // https://developer.android.com/reference/android/webkit/WebView#getSettings()
+                //         var settings = nativeWebView.Call<AndroidJavaObject>("getSettings");
+                //         // List<string> hosts = new List<string>() { "decentraland.zone", "decentraland.org", "127.0.0.1", "192.168.1.1","localhost","cloudflareinsights.com" };
+                //         //
+                //         // nativeWebView.Call("setSafeBrowsingWhitelist",hosts);
+                //         // Call WebSettings.setAllowFileAccess() to disable file access.
+                //         // https://developer.android.com/reference/android/webkit/WebSettings#setAllowFileAccess(boolean)
+                //         settings.Call("setDomStorageEnabled", true);
+                //         // settings.Call("setAllowFileAccess",true);
+                //         // settings.Call("setAllowContentAccess",true);
+                //         // settings.Call("setAllowFileAccessFromFileURLs",true);
+                //         // settings.Call("setSafeBrowsingEnabled",false);
+                //         // settings.Call("setMixedContentMode ",0);
+                //         // settings.Call("setLoadsImagesAutomatically ",true);
+                //         // settings.Call("setAllowUniversalAccessFromFileURLs",true);
+                //         // androidWebView.SetDownloadsEnabled(true);
+                //         
+                //     
+                //     });
+                //    
+                //  #endif
+                    
                     DCLWebview.gameObject.SetActive((true));
                     keyboardDCL.gameObject.SetActive((true));
                     Debug.Log($"main webview loading {webViewURL}");
@@ -488,8 +533,32 @@ openInternalBrowser = true;
                 {
                     DCLWebview.Initialized += (sender, eventArgs) =>
                     {
-                        
-                        
+// #if UNITY_ANDROID && !UNITY_EDITOR
+//                     var androidWebView = DCLWebview.WebView as AndroidWebView;
+//                     androidWebView.SetMixedContentMode(MixedContentMode.AlwaysAllow);
+//                     var nativeWebView = androidWebView.GetNativeWebView();
+//                     // Most native WebView methods must be called on the Android UI thread.
+//                     AndroidWebView.RunOnAndroidUIThread(() => {
+//                         // Call android.webkit.WebView.getSettings().
+//                         // https://developer.android.com/reference/android/webkit/WebView#getSettings()
+//                         var settings = nativeWebView.Call<AndroidJavaObject>("getSettings");
+//                         // List<string> hosts = new List<string>() { "decentraland.zone", "decentraland.org", "127.0.0.1", "192.168.1.1","localhost","cloudflareinsights.com" };
+//                         //
+//                         // nativeWebView.Call("setSafeBrowsingWhitelist",hosts);
+//                         // Call WebSettings.setAllowFileAccess() to disable file access.
+//                         // https://developer.android.com/reference/android/webkit/WebSettings#setAllowFileAccess(boolean)
+//                         settings.Call("setDomStorageEnabled", true);
+//                         // settings.Call("setAllowFileAccess",true);
+//                         // settings.Call("setAllowContentAccess",true);
+//                         // settings.Call("setAllowFileAccessFromFileURLs",true);
+//                         // settings.Call("setSafeBrowsingEnabled",false);
+//                         // settings.Call("setMixedContentMode ",0);
+//                         // settings.Call("setAllowUniversalAccessFromFileURLs",true);
+//                         // androidWebView.SetDownloadsEnabled(true);
+//                         
+//                     
+//                     });
+//#endif
                         DCLWebview.gameObject.SetActive((true));
                         keyboardDCL.gameObject.SetActive((true));
                         Debug.Log($"main webview loading {webViewURL}");
@@ -655,6 +724,30 @@ openInternalBrowser = true;
             //     OpenWebBrowser();
             // }
             
+        }
+
+        private IEnumerator PurgeBrowserHistory()
+        {
+#if UNITY_ANDROID && !UNITY_EDITOR
+            var androidGeckoWebView = DCLWebview.WebView as AndroidGeckoWebView;
+            var geckoSession = androidGeckoWebView.GetNativeWebView();
+            while (true)
+            {
+                yield return new WaitForSeconds(5);
+
+   
+    // Call the GeckoSession.purgeHistory() to purge the back / forward history.
+    // https://mozilla.github.io/geckoview/javadoc/mozilla-central/org/mozilla/geckoview/GeckoSession.html#purgeHistory()
+    // Most native GeckoSession methods must be called on the Android UI thread.
+    AndroidGeckoWebView.RunOnAndroidUIThread(() => {
+        geckoSession.Call("purgeHistory");
+    });
+
+
+
+            }
+#endif
+            yield return null;
         }
         
 

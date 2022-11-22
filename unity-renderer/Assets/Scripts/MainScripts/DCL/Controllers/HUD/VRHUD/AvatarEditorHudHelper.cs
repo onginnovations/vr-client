@@ -22,9 +22,10 @@ public class AvatarEditorHudHelper : VRHUDHelper
     private void Position()
     {
         myTrans.localScale = 0.0034f*Vector3.one;
-        var forward = CommonScriptableObjects.cameraForward;
+        var rawForward = CommonScriptableObjects.cameraForward.Get();
+        var forward = new Vector3(rawForward.x, 0, rawForward.z).normalized;
         myTrans.position = Camera.main.transform.position +forward + 15.0f* Vector3.right;
-        myTrans.forward = forward;
+        myTrans.forward =  forward;
         
     }
 }

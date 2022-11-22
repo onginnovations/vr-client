@@ -129,8 +129,13 @@ namespace DCL.Configuration
 
     public static class TextureCompressionSettings
     {
+        #if UNITY_ANDROID && !UNITY_EDITOR
         public const int GLTF_TEX_MAX_SIZE_WEB = 512;
+        public const int GENERAL_TEX_MAX_SIZE_WEB = 1024; 
+#else
+        public const int GLTF_TEX_MAX_SIZE_WEB = 1024;
         public const int GENERAL_TEX_MAX_SIZE_WEB = 2048;
+        #endif
     }
 
     public static class ApplicationSettings
