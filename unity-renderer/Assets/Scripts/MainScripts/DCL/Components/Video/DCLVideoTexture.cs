@@ -296,8 +296,8 @@ namespace DCL.Components
                 return;
 
             float targetVolume = 0f;
-
-            if (CommonScriptableObjects.rendererState.Get() && IsPlayerInSameSceneAsComponent(CommonScriptableObjects.sceneID.Get()))
+            
+            if (CommonScriptableObjects.rendererState.Get() && !IsPlayerInSameSceneAsComponent(CommonScriptableObjects.sceneID.Get()))
             {
                 targetVolume = baseVolume * distanceVolumeModifier;
                 float virtualMixerVolume = DataStore.i.virtualAudioMixer.sceneSFXVolume.Get();

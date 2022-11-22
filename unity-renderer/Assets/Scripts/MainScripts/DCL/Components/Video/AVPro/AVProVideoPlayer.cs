@@ -26,6 +26,7 @@ public class AvProVideoPlayer : IVideoPlayer, IDisposable
         avProMediaPlayer.name = "_AvProMediaFor_" + id;
         avProMediaPlayer.OpenMedia(MediaPathType.AbsolutePathOrURL, url, false);
         avProMediaPlayer.AudioVolume = 0;
+        avProMediaPlayer.AudioHeadTransform = Camera.main.transform;
         currentState = VideoState.LOADING;
         avProMediaPlayer.Events.AddListener(AvProStateUpdater);
     }
