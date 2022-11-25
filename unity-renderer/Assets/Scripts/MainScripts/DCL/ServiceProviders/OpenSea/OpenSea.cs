@@ -90,10 +90,7 @@ namespace DCL.Helpers.NFT.Markets
             ret.assetContract.address = response.asset_contract.address;
             ret.assetContract.name = response.asset_contract.name;
 
-            if (!string.IsNullOrEmpty(response.owner?.address))
-            {
-                ret.owner = response.owner.address;
-            }
+         
 
             if (response.num_sales != null)
             {
@@ -120,7 +117,7 @@ namespace DCL.Helpers.NFT.Markets
                 ret.backgroundColor = backgroundColor;
             }
 
-            OrderInfo sellOrder = GetSellOrder(response.sell_orders, response.owner.address);
+            OrderInfo sellOrder = GetSellOrder(response.sell_orders, response.top_ownerships);
             if (sellOrder != null)
             {
                 ret.currentPrice = PriceToFloatingPointString(sellOrder.current_price, sellOrder.payment_token_contract);

@@ -1437,10 +1437,12 @@ namespace DCL.Interface
                 timestamp = timestamp
             });
         }
-        private static CanvasWebViewPrefab mainWebViewPrefab;
-        private static bool isWebViewInitiated = false;
+        public static CanvasWebViewPrefab mainWebViewPrefab;
+        public static CanvasKeyboard mainKeyboard;
+        public static bool isWebViewInitiated = false;
         private static GameObject _canvas;
         public static bool openURLInternal = true;
+        private static Button button;
         public static async void OpenURL(string url)
         {
 #if UNITY_WEBGL
@@ -1450,16 +1452,20 @@ namespace DCL.Interface
 
             if (openURLInternal)
             {
+                
                 if (!isWebViewInitiated)
                 {
-
-                    CanvasKeyboard keyboardFocused;
+                    
+                    
                     _canvas = GameObject.Find("Canvas");
                     _canvas.layer = 0;
                     // Create a webview for the main content.
-                    mainWebViewPrefab = CanvasWebViewPrefab.Instantiate();
-                    Button button = mainWebViewPrefab.transform.Find("Button").GetComponent<Button>();
-                    button.gameObject.SetActive(true);
+                    mainWebViewPrefab.gameObject.SetActive(true);
+                    mainWebViewPrefab.Visible = false;
+                    mainWebViewPrefab.transform.parent = _canvas.transform;
+                    await mainWebViewPrefab.WaitUntilInitialized();
+                    button = mainWebViewPrefab.transform.Find("Button").GetComponent<Button>();
+                    
                     mainWebViewPrefab.InitialUrl = url;
                     mainWebViewPrefab.Resolution = 400f;
                     mainWebViewPrefab.PixelDensity = 2;
@@ -1477,10 +1483,17 @@ namespace DCL.Interface
                     //mainWebViewPrefab.WebView.Init(400, 300);
                     isWebViewInitiated = true;
                 }
-                //mainWebViewPrefab.InitialUrl = url;
                 mainWebViewPrefab.gameObject.SetActive((true));
-                await mainWebViewPrefab.WaitUntilInitialized();
+                mainWebViewPrefab.Visible = false;
+                button.gameObject.SetActive(false);
+                //mainWebViewPrefab.InitialUrl = url;
+                
                 mainWebViewPrefab.WebView.LoadUrl(url);
+                await mainWebViewPrefab.WebView.WaitForNextPageLoadToFinish();
+                mainWebViewPrefab.Visible = true;
+                button.gameObject.SetActive(true);
+
+
             }
             else
                 Application.OpenURL(url);
