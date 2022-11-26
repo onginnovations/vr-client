@@ -1489,7 +1489,7 @@ namespace DCL.Interface
                 //mainWebViewPrefab.InitialUrl = url;
                 
                 mainWebViewPrefab.WebView.LoadUrl(url);
-                await mainWebViewPrefab.WebView.WaitForNextPageLoadToFinish();
+                //await mainWebViewPrefab.WebView.WaitForNextPageLoadToFinish();
                 mainWebViewPrefab.Visible = true;
                 button.gameObject.SetActive(true);
 

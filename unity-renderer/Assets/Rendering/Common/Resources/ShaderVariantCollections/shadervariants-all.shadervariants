@@ -75,11 +75,6 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
-  - first: {fileID: 9006, guid: 0000000000000000f000000000000000, type: 0}
-    second:
-      variants:
-      - keywords: 
-        passType: 0
   - first: {fileID: 9007, guid: 0000000000000000f000000000000000, type: 0}
     second:
       variants:
@@ -124,62 +119,37 @@ ShaderVariantCollection:
       variants:
       - keywords: 
         passType: 0
-  - first: {fileID: 4800000, guid: 7bc4dc8666ba3c94e80873a8e72e5b06, type: 3}
+  - first: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
     second:
       variants:
       - keywords: 
         passType: 8
       - keywords: INSTANCING_ON
         passType: 8
-      - keywords: _ALPHATEST_ON
+      - keywords: _GLOSSINESS_FROM_BASE_ALPHA
         passType: 8
-      - keywords: INSTANCING_ON _ALPHATEST_ON
+      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA
         passType: 8
       - keywords: 
         passType: 13
-      - keywords: FOG_LINEAR
-        passType: 13
-      - keywords: FOG_LINEAR _EMISSION
-        passType: 13
-      - keywords: _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
-        passType: 13
-      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
-        passType: 13
-      - keywords: FOG_LINEAR _EMISSION _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
-        passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX
         passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION
+      - keywords: _GLOSSINESS_FROM_BASE_ALPHA
         passType: 13
-      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA
         passType: 13
-      - keywords: FOG_LINEAR _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+      - keywords: _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT _SPECULAR_COLOR
         passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _NORMALMAP
+      - keywords: FOG_LINEAR _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
+          _SPECULAR_COLOR
         passType: 13
-      - keywords: _ALPHATEST_ON
+      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
+          _SPECULAR_COLOR
         passType: 13
-      - keywords: _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+      - keywords: FOG_LINEAR INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS
+          _SHADOWS_SOFT _SPECULAR_COLOR
         passType: 13
-      - keywords: FOG_LINEAR _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP
-          _SHADOWS_SOFT
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _ALPHATEST_ON _EMISSION _NORMALMAP
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _METALLICSPECGLOSSMAP
-        passType: 13
-      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP _NORMALMAP
-          _SHADOWS_SOFT
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _METALLICSPECGLOSSMAP _NORMALMAP
-        passType: 13
-      - keywords: _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP
-          _NORMALMAP _SHADOWS_SOFT
-        passType: 13
-      - keywords: FOG_LINEAR _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP
-          _NORMALMAP _SHADOWS_SOFT
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _RECEIVE_SHADOWS_OFF
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _GLOSSINESS_FROM_BASE_ALPHA _SPECULAR_COLOR
         passType: 13
   - first: {fileID: 4800000, guid: e260cfa7296ee7642b167f1eb5be5023, type: 3}
     second:
@@ -203,15 +173,13 @@ ShaderVariantCollection:
         passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX
         passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _SPECULAR_SETUP
-        passType: 13
       - keywords: _ALPHATEST_ON _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
         passType: 13
       - keywords: FOG_LINEAR _ALPHATEST_ON _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
         passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX _ALPHATEST_ON
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION
         passType: 13
       - keywords: _ENVIRONMENTREFLECTIONS_OFF _MAIN_LIGHT_SHADOWS _RECEIVE_SHADOWS_OFF
           _SHADOWS_SOFT _SPECULARHIGHLIGHTS_OFF
@@ -221,6 +189,8 @@ ShaderVariantCollection:
         passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX _ENVIRONMENTREFLECTIONS_OFF _RECEIVE_SHADOWS_OFF
           _SPECULARHIGHLIGHTS_OFF
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _SPECULAR_SETUP
         passType: 13
   - first: {fileID: 4800000, guid: 0406db5a14f94604a8c57ccfbc9f3b46, type: 3}
     second:
@@ -308,19 +278,6 @@ ShaderVariantCollection:
         passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX _TERRAIN_INSTANCED_PERPIXEL_NORMAL
         passType: 13
-  - first: {fileID: 4800000, guid: 5b3c732a09c146043bab5ef523bbca23, type: 3}
-    second:
-      variants:
-      - keywords: _ALPHATEST_ON
-        passType: 0
-      - keywords: FOG_LINEAR _ALPHATEST_ON
-        passType: 0
-      - keywords: 
-        passType: 8
-      - keywords: _ALPHATEST_ON
-        passType: 8
-      - keywords: _ALPHATEST_ON
-        passType: 13
   - first: {fileID: 4800000, guid: acd491c64cf95fb43828192802060ca0, type: 3}
     second:
       variants:
@@ -336,38 +293,6 @@ ShaderVariantCollection:
       - keywords: FOG_LINEAR _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
         passType: 13
       - keywords: _ADDITIONAL_LIGHTS_VERTEX
-        passType: 13
-  - first: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
-    second:
-      variants:
-      - keywords: 
-        passType: 8
-      - keywords: INSTANCING_ON
-        passType: 8
-      - keywords: _GLOSSINESS_FROM_BASE_ALPHA
-        passType: 8
-      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA
-        passType: 8
-      - keywords: 
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX
-        passType: 13
-      - keywords: _GLOSSINESS_FROM_BASE_ALPHA
-        passType: 13
-      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA
-        passType: 13
-      - keywords: _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT _SPECULAR_COLOR
-        passType: 13
-      - keywords: FOG_LINEAR _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
-          _SPECULAR_COLOR
-        passType: 13
-      - keywords: INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
-          _SPECULAR_COLOR
-        passType: 13
-      - keywords: FOG_LINEAR INSTANCING_ON _GLOSSINESS_FROM_BASE_ALPHA _MAIN_LIGHT_SHADOWS
-          _SHADOWS_SOFT _SPECULAR_COLOR
-        passType: 13
-      - keywords: _ADDITIONAL_LIGHTS_VERTEX _GLOSSINESS_FROM_BASE_ALPHA _SPECULAR_COLOR
         passType: 13
   - first: {fileID: 4800000, guid: fe393ace9b354375a9cb14cdbbc28be4, type: 3}
     second:
@@ -387,11 +312,92 @@ ShaderVariantCollection:
         passType: 8
       - keywords: SHADOWS_DEPTH _ALPHATEST_ON
         passType: 8
+      - keywords: SHADOWS_DEPTH _ALPHABLEND_ON
+        passType: 8
       - keywords: SHADOWS_DEPTH _SPECGLOSSMAP
         passType: 8
       - keywords: SHADOWS_DEPTH _ALPHATEST_ON _SPECGLOSSMAP
         passType: 8
-      - keywords: SHADOWS_DEPTH _ALPHABLEND_ON
-        passType: 8
       - keywords: SHADOWS_DEPTH _ALPHABLEND_ON _SPECGLOSSMAP
         passType: 8
+  - first: {fileID: 4800000, guid: eb44a525a7e2c6640a8cd90fd7fabce4, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 4800000, guid: 1ca6555d94ddb204c87e9fe549085b3c, type: 3}
+    second:
+      variants: []
+  - first: {fileID: 9006, guid: 0000000000000000f000000000000000, type: 0}
+    second:
+      variants:
+      - keywords: 
+        passType: 0
+  - first: {fileID: 4800000, guid: 7bc4dc8666ba3c94e80873a8e72e5b06, type: 3}
+    second:
+      variants:
+      - keywords: 
+        passType: 8
+      - keywords: INSTANCING_ON
+        passType: 8
+      - keywords: _ALPHATEST_ON
+        passType: 8
+      - keywords: INSTANCING_ON _ALPHATEST_ON
+        passType: 8
+      - keywords: 
+        passType: 13
+      - keywords: FOG_LINEAR
+        passType: 13
+      - keywords: FOG_LINEAR _EMISSION
+        passType: 13
+      - keywords: _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
+        passType: 13
+      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
+        passType: 13
+      - keywords: FOG_LINEAR _EMISSION _MAIN_LIGHT_SHADOWS _SHADOWS_SOFT
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION
+        passType: 13
+      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+        passType: 13
+      - keywords: FOG_LINEAR _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _NORMALMAP
+        passType: 13
+      - keywords: _ALPHATEST_ON
+        passType: 13
+      - keywords: _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP _SHADOWS_SOFT
+        passType: 13
+      - keywords: FOG_LINEAR _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _NORMALMAP
+          _SHADOWS_SOFT
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _ALPHATEST_ON _EMISSION _NORMALMAP
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _METALLICSPECGLOSSMAP
+        passType: 13
+      - keywords: _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP _NORMALMAP
+          _SHADOWS_SOFT
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _EMISSION _METALLICSPECGLOSSMAP _NORMALMAP
+        passType: 13
+      - keywords: _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP
+          _NORMALMAP _SHADOWS_SOFT
+        passType: 13
+      - keywords: FOG_LINEAR _ALPHATEST_ON _EMISSION _MAIN_LIGHT_SHADOWS _METALLICSPECGLOSSMAP
+          _NORMALMAP _SHADOWS_SOFT
+        passType: 13
+      - keywords: _ADDITIONAL_LIGHTS_VERTEX _RECEIVE_SHADOWS_OFF
+        passType: 13
+  - first: {fileID: 4800000, guid: 5b3c732a09c146043bab5ef523bbca23, type: 3}
+    second:
+      variants:
+      - keywords: _ALPHATEST_ON
+        passType: 0
+      - keywords: FOG_LINEAR _ALPHATEST_ON
+        passType: 0
+      - keywords: 
+        passType: 8
+      - keywords: _ALPHATEST_ON
+        passType: 8
+      - keywords: _ALPHATEST_ON
+        passType: 13

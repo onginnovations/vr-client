@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Threading;
 using Cysharp.Threading.Tasks;
+using DCL;
 using DCL.Components.Video.Plugin;
 using RenderHeads.Media.AVProVideo;
 using UnityEngine;
@@ -44,6 +45,7 @@ public class AvProVideoPlayer : IVideoPlayer, IDisposable
                 break;
             case MediaPlayerEvent.EventType.Error:
                 lastError = $"AVProError {arg2} for id {id}";
+                Debug.LogError(lastError);
                 avProMediaPlayer.CloseMedia();
                 currentState = VideoState.ERROR;
                 break;
@@ -153,13 +155,13 @@ public class AvProVideoPlayer : IVideoPlayer, IDisposable
         videoTexture.Apply();
     }
 
-    private void StartResizeTexture()
+    private async void StartResizeTexture()
     {
         avProTexture = null;
         resizeVideoTextureCts?.Cancel();
         resizeVideoTextureCts?.Dispose();
         resizeVideoTextureCts = new CancellationTokenSource();
-        ResizeVideoTexture(resizeVideoTextureCts.Token);
+        await ResizeVideoTexture(resizeVideoTextureCts.Token);
     }
 
     public string GetLastError()

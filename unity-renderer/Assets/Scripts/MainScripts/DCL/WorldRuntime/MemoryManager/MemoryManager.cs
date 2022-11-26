@@ -88,28 +88,28 @@ namespace DCL
                 {
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB);
-                    QualitySettings.masterTextureLimit = 0;
+                    //QualitySettings.masterTextureLimit = 0;
                     //sceneLoadRadiusSettingController.UpdateSetting(4.0f);
                 }
                 else if ( usedMemory < MED_USED_MEMORY)
                 {
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/2);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB);
-                    QualitySettings.masterTextureLimit = 1;
+                    //QualitySettings.masterTextureLimit = 1;
                     //sceneLoadRadiusSettingController.UpdateSetting(3.0f);
                 }
                 else if (usedMemory < MAX_USED_MEMORY)
                 {
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/4);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/2);
-                    QualitySettings.masterTextureLimit = 2;
+                    //QualitySettings.masterTextureLimit = 2;
                     //sceneLoadRadiusSettingController.UpdateSetting(2.0f);
                 }
                 else
                 {
                     DataStore.i.textureConfig.gltfMaxSize.Set(TextureCompressionSettings.GLTF_TEX_MAX_SIZE_WEB/8);
                     DataStore.i.textureConfig.generalMaxSize.Set(TextureCompressionSettings.GENERAL_TEX_MAX_SIZE_WEB/8);
-                    QualitySettings.masterTextureLimit = 4;
+                    //QualitySettings.masterTextureLimit = 4;
                     //sceneLoadRadiusSettingController.UpdateSetting(1.0f);
                     OnCriticalMemory?.Invoke();
                 }

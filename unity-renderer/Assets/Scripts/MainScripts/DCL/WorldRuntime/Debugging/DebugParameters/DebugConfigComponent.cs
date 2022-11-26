@@ -24,7 +24,7 @@ namespace DCL
         [SerializeField] private GameObject popupMessageObj;
         [SerializeField] private CanvasWebViewPrefab DCLWebview;
         [SerializeField] private CanvasKeyboard keyboardDCL;
-        [SerializeField] private CanvasWebViewPrefab optionsWeview;
+        [SerializeField] private CanvasWebViewPrefab optionsWebview;
         [SerializeField] public CanvasKeyboard keyboardOptions;
         [SerializeField] private TMP_InputField urlInput;
         [SerializeField] private Button reload;
@@ -134,11 +134,18 @@ namespace DCL
             DataStore.i.debugConfig.msgStepByStep = debugConfig.msgStepByStep;
             DataStore.i.performance.multithreading.Set(multithreaded);
             #if UNITY_ANDROID && !UNITY_EDITOR
-            if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(500);
+            if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(100);
             #else
             if (disableGLTFDownloadThrottle) DataStore.i.performance.maxDownloads.Set(999);
             #endif
             Texture.allowThreadedTextureCreation = multithreaded;
+            WebViewOptions opt = new WebViewOptions();
+#if ( UNITY_EDITOR || UNITY_STANDALONE)
+                opt.preferredPlugins  = new WebPluginType[] { WebPluginType.AndroidGecko, WebPluginType.iOS, WebPluginType.Windows, WebPluginType.UniversalWindowsPlatform };
+#elif UNITY_ANDROID
+            opt.preferredPlugins  = new WebPluginType[] { WebPluginType.AndroidGecko};
+#endif
+            DCLWebview.SetOptionsForInitialization(opt);
             // options.Initialized += (sender, eventArgs) =>
             // {
             //     Debug.Log($"Secondary Webview loading {htmlServerTest}");
@@ -152,8 +159,7 @@ namespace DCL
             StandaloneWebView.SetAutoplayEnabled(true);
             StandaloneWebView.SetTargetFrameRate(72);
             StandaloneWebView.SetCommandLineArguments("--disable-web-security");
-            optionsWeview.gameObject.SetActive(false);
-            keyboardOptions.gameObject.SetActive(false);
+            
             //
             //
             // openInternalBrowser = false;
@@ -175,9 +181,9 @@ namespace DCL
             Web.SetAutoplayEnabled(true);
             AndroidGeckoWebView.SetIgnoreCertificateErrors(true);
             AndroidGeckoWebView.SetCameraAndMicrophoneEnabled(true);
-            //
             AndroidGeckoWebView.SetAutoplayEnabled(true);
             AndroidGeckoWebView.SetStorageEnabled(true);
+            AndroidGeckoWebView.GloballySetUserAgent(false);
             AndroidGeckoWebView.SetEnterpriseRootsEnabled(true);
             AndroidGeckoWebView.SetDrmEnabled(true);
             AndroidGeckoWebView.SetPreferences(new Dictionary<string, string> {
@@ -210,8 +216,9 @@ namespace DCL
 
         }
 
-        private void Start()
+        private async void Start()
         {
+            
             if (!Debug.isDebugBuild)
             {
                 
@@ -221,7 +228,7 @@ namespace DCL
                 webSocketSSL = false;
                 baseUrlMode = BaseUrl.ZONE;
                 parcelRadiusToLoad = 3;
-                StartCoroutine(PurgeBrowserHistory());
+                
                 
 #else
                 
@@ -232,24 +239,53 @@ namespace DCL
                 
                 
 #endif
+               
                 startInCoords = Vector2.zero;
                 disableAssetBundles = true;
             }
+
+           
             // Environment.i.platform.memoryManager.OnCriticalMemory += ClearBrowserHistory;
             useInternalBrowser.isOn = openInternalBrowser;
             WebInterface.openURLInternal = openInternalBrowser;
+            WebInterface.mainWebViewPrefab = optionsWebview;
+            WebInterface.mainKeyboard = keyboardOptions;
+            
             if (openInternalBrowser)
             {
+                await keyboardDCL.WaitUntilInitialized();
+                keyboardDCL.gameObject.SetActive((false));
+                await DCLWebview.WaitUntilInitialized();
+                DCLWebview.WebView.FocusedInputFieldChanged += (sender, eventArgs) =>
+                {
+                    var shouldShowKeyboard = eventArgs.Type != FocusedInputFieldType.None;
+                    keyboardDCL.gameObject.SetActive(shouldShowKeyboard);
+                };
+
+                await keyboardOptions.WaitUntilInitialized();
+                    keyboardOptions.gameObject.SetActive((false));
+                await optionsWebview.WaitUntilInitialized();
+                    optionsWebview.WebView.FocusedInputFieldChanged += (sender, eventArgs) =>
+                    {
+                        var shouldShowKeyboardOpt = eventArgs.Type != FocusedInputFieldType.None;
+                        keyboardOptions.gameObject.SetActive(shouldShowKeyboardOpt);
+                    };
+                    optionsWebview.gameObject.SetActive(false);
+                    keyboardOptions.gameObject.SetActive(false);
+               
                 browserMessage.transform.parent.gameObject.SetActive(true);
                 DCLWebview.gameObject.SetActive((true));
                 keyboardDCL.gameObject.SetActive((true));
+                optionsWebview.gameObject.SetActive(false);
+                keyboardOptions.gameObject.SetActive(false);
             }
             else
             {
                 
                 DCLWebview.gameObject.SetActive((false));
                 keyboardDCL.gameObject.SetActive((false));
-                
+                optionsWebview.gameObject.SetActive(false);
+                keyboardOptions.gameObject.SetActive(false);
             }
             // keyboardOptions.InputReceived += (sender, key) =>
             // {
@@ -274,6 +310,7 @@ namespace DCL
                     DataStore.i.wsCommunication.communicationReady.OnChange += OnCommunicationReadyChangedValue;
                 }
             }
+            StartCoroutine(PurgeBrowserHistory());
         }
 
 
@@ -475,12 +512,7 @@ openInternalBrowser = true;
             {
                 browserMessage.text = "Browser Loading";
                 //DontDestroyOnLoad(canvas);
-                WebViewOptions opt = new WebViewOptions();
-#if ( UNITY_EDITOR || UNITY_STANDALONE)
-                opt.preferredPlugins  = new WebPluginType[] { WebPluginType.AndroidGecko, WebPluginType.iOS, WebPluginType.Windows, WebPluginType.UniversalWindowsPlatform };
-#elif UNITY_ANDROID
-            opt.preferredPlugins  = new WebPluginType[] { WebPluginType.AndroidGecko};
-#endif
+                
 
                
                 DCLWebview.InitialUrl = webViewURL;
@@ -518,9 +550,13 @@ openInternalBrowser = true;
                 //     });
                 //    
                 //  #endif
+                     DCLWebview.WebView.FocusedInputFieldChanged += (sender, eventArgs) => {
+                         var shouldShowKeyboard = eventArgs.Type != FocusedInputFieldType.None;
+                         keyboardDCL.gameObject.SetActive(shouldShowKeyboard);
+                     };
                     
                     DCLWebview.gameObject.SetActive((true));
-                    keyboardDCL.gameObject.SetActive((true));
+                    //keyboardDCL.gameObject.SetActive((true));
                     Debug.Log($"main webview loading {webViewURL}");
                     DCLWebview.WebView.LoadUrl(webViewURL);
                     DCLWebview.WebView.LoadProgressChanged += ( sender,  args) => {  
@@ -531,6 +567,7 @@ openInternalBrowser = true;
                     DCLWebview.WebView.CloseRequested += ( sender,  args) => { Debug.Log($"WebView Status CloseRequested {args.ToString()}, {sender.ToString()}"); };}
                 else
                 {
+                    keyboardDCL.gameObject.SetActive(true);
                     DCLWebview.Initialized += (sender, eventArgs) =>
                     {
 // #if UNITY_ANDROID && !UNITY_EDITOR
@@ -559,8 +596,15 @@ openInternalBrowser = true;
 //                     
 //                     });
 //#endif
+                        keyboardDCL.gameObject.SetActive(false);
+                        
+                        DCLWebview.WebView.FocusedInputFieldChanged += (sender, eventArgs) => {
+                            var shouldShowKeyboard = eventArgs.Type != FocusedInputFieldType.None;
+                            keyboardDCL.gameObject.SetActive(shouldShowKeyboard);
+                        };
+                        
                         DCLWebview.gameObject.SetActive((true));
-                        keyboardDCL.gameObject.SetActive((true));
+                        //keyboardDCL.gameObject.SetActive((true));
                         Debug.Log($"main webview loading {webViewURL}");
                         DCLWebview.WebView.LoadUrl(webViewURL);
                         DCLWebview.WebView.LoadProgressChanged += ( sender,  args) => {  
@@ -572,13 +616,7 @@ openInternalBrowser = true;
                     };
                 }
 
-
-                //DCLWebview.transform.SetParent(canvas.transform, false);
                 DCLWebview.Resolution = 450;
-
-
-                // DCLWebview.RemoteDebuggingEnabled = false;
-                // DCLWebview.LogConsoleMessages = false;
                 DCLWebview.NativeOnScreenKeyboardEnabled = false;
                 DCLWebview.Native2DModeEnabled = false;
 
@@ -587,7 +625,6 @@ openInternalBrowser = true;
 
 
                 Debug.Log("Created WebView objects");
-                //_positionPrefabs();
                 Debug.Log("finished positioning webview objects");
             }
             else
@@ -601,39 +638,25 @@ openInternalBrowser = true;
         private void _positionPrefabs() {
         #if (UNITY_ANDROID || UNITY_STANDALONE || UNITY_EDITOR)
             var rectTransform = DCLWebview.transform as RectTransform;
-           
-            
-            //rectTransform.anchoredPosition3D = Vector3.zero;
+
             rectTransform.offsetMin = new Vector2(-0.191f, -0.25f);
             rectTransform.offsetMax = new Vector2(-0.809f, -0.75f);
             rectTransform.pivot = new Vector2(0.5f, 1);
-            //rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 520/150);
-            //rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 520/150);
+
 
             rectTransform.localScale = new Vector3(0.5f, 0.5f, 0.5f);
-        
-            // var keyboardTransform = _keyboard.transform as RectTransform;
-            // keyboardTransform.anchoredPosition3D = Vector3.zero;
-            // keyboardTransform.offsetMin = new Vector2(0.5f, -1.8f);
-            // keyboardTransform.offsetMax = new Vector2(0.5f, -0.3f);
-            // keyboardTransform.pivot = new Vector2(0.5f, 0);
-            // keyboardTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 690/150);
-            // keyboardTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 162/150);
+
 #endif
         }
-
-// <<<<<<< HEAD
-        
+       
         public  void HideWebViewScreens()
         {
             Debug.Log("WebView Connected, hiding web browsers.");
-            // _canvasWebViewPrefab.Visible = false;
-             //DCLWebview.transform.localPosition += new Vector3(0, 1, 0);
-            //_keyboard.WebViewPrefab.transform.localPosition -= new Vector3(0, 10, 0);
+
             startMenu.SetActive((false));
               keyboardOptions.gameObject.SetActive(false);
               keyboardDCL.gameObject.SetActive((false));
-              optionsWeview.gameObject.SetActive(false);
+              optionsWebview.gameObject.SetActive(false);
               urlInput.gameObject.SetActive(false);
              reload.gameObject.SetActive((false));
              swapTabs.gameObject.SetActive((false));
@@ -660,7 +683,7 @@ openInternalBrowser = true;
             {
                 DCLWebview.gameObject.SetActive((false));
                 keyboardDCL.gameObject.SetActive(false);
-                optionsWeview.gameObject.SetActive((true));
+                optionsWebview.gameObject.SetActive((true));
                 keyboardOptions.gameObject.SetActive(true);
                 isMainTab = false;
             }
@@ -668,7 +691,7 @@ openInternalBrowser = true;
             {
                 DCLWebview.gameObject.SetActive((true));
                 keyboardDCL.gameObject.SetActive(true);
-                optionsWeview.gameObject.SetActive((false));
+                optionsWebview.gameObject.SetActive((false));
                 keyboardOptions.gameObject.SetActive(false);
                 isMainTab = true;
             }
@@ -679,10 +702,7 @@ openInternalBrowser = true;
         public void ReloadPage()
         {
         //TODO: ensure websocket is restarted and listening, set start location to current parcel, ensure startMenu is open, reload url. Use to correct dropped connections in future.
-            //Set
-        
-            //if(_canvasWebViewPrefab!=null) _canvasWebViewPrefab.Destroy();
-            //if(_keyboard!= null)  Destroy(_keyboard.gameObject);
+           
             if(openInternalBrowser)
                 DCLWebview.WebView.Reload();
             else
@@ -700,51 +720,35 @@ openInternalBrowser = true;
 
             openInternalBrowser = useInternalBrowser.isOn;
             WebInterface.openURLInternal = openInternalBrowser;
-            // if (useInternalBrowser.isOn)
-            // {
-            //     DCLWebview.gameObject.SetActive(true);
-            //     keyboardDCL.gameObject.SetActive(true);
-            //     optionsWeview.gameObject.SetActive(false);
-            //     keyboardOptions.gameObject.SetActive(false);
-            //     OpenWebBrowser();
-            // }
-            // else
-            // {
-            //     if (DCLWebview != null && DCLWebview.WebView != null)
-            //     {
-            //         DCLWebview.WebView.LoadUrl("https://www.google.com/");
-            //         //DCLWebview.WebView.StopLoad();
-            //         //DCLWebview.WebView.Dispose();
-            //         DCLWebview.gameObject.SetActive((false));
-            //     }
-            //     DCLWebview.gameObject.SetActive(false);
-            //     keyboardDCL.gameObject.SetActive(false);
-            //     optionsWeview.gameObject.SetActive(false);
-            //     keyboardOptions.gameObject.SetActive(false);
-            //     OpenWebBrowser();
-            // }
             
         }
 
         private IEnumerator PurgeBrowserHistory()
         {
 #if UNITY_ANDROID && !UNITY_EDITOR
-            var androidGeckoWebView = DCLWebview.WebView as AndroidGeckoWebView;
-            var geckoSession = androidGeckoWebView.GetNativeWebView();
-            while (true)
+            while (!DCLWebview.WebView.IsInitialized)
             {
-                yield return new WaitForSeconds(5);
+                yield return new WaitForSeconds(3);
+            }
+            var androidGeckoWebView = DCLWebview.WebView as AndroidGeckoWebView;
+            if (androidGeckoWebView != null)
+            {
+                var geckoSession = androidGeckoWebView.GetNativeWebView();
+                while (true)
+                {
+                    yield return new WaitForSeconds(10);
 
    
-    // Call the GeckoSession.purgeHistory() to purge the back / forward history.
-    // https://mozilla.github.io/geckoview/javadoc/mozilla-central/org/mozilla/geckoview/GeckoSession.html#purgeHistory()
-    // Most native GeckoSession methods must be called on the Android UI thread.
-    AndroidGeckoWebView.RunOnAndroidUIThread(() => {
-        geckoSession.Call("purgeHistory");
-    });
+                    // Call the GeckoSession.purgeHistory() to purge the back / forward history.
+                    // https://mozilla.github.io/geckoview/javadoc/mozilla-central/org/mozilla/geckoview/GeckoSession.html#purgeHistory()
+                    // Most native GeckoSession methods must be called on the Android UI thread.
+                    AndroidGeckoWebView.RunOnAndroidUIThread(() => {
+                        geckoSession.Call("purgeHistory");
+                    });
 
 
 
+                }
             }
 #endif
             yield return null;

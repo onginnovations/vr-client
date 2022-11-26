@@ -128,7 +128,7 @@ namespace DCL
                             texture.Compress(false);
                         
                         texture.Apply(unitySamplingMode != FilterMode.Point, true);
-                        texture = TextureHelpers.ClampSize(texture, DataStore.i.textureConfig.generalMaxSize.Get());
+                        texture = TextureHelpers.ClampSize(texture, DataStore.i.textureConfig.generalMaxSize.Get(),true);
                     }
                 }
                 else

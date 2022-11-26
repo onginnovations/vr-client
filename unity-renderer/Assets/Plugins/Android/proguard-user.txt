@@ -1,0 +1,15 @@
+-keep class com.renderheads.AVPro.Video.** { *; }
+-keep class com.google.android.exoplr2avp.** { *; }
+-keep class com.twobigears.audio360.** { *; }
+
+# --- Start of section automatically included for 3D WebView for Android with Gecko Engine - PLEASE DO NOT EDIT ---
+# For more info, please see this page: https://support.vuplex.com/articles/android-minification
+-keep public class com.vuplex.webview.gecko.GeckoWebView { public *; }
+-keep public interface com.vuplex.webview.gecko.BooleanCallback { public *; }
+-keep public interface com.vuplex.webview.gecko.ByteArrayCallback { public *; }
+-keep public interface com.vuplex.webview.gecko.FileSelectionCallback { public *; }
+-keep public interface com.vuplex.webview.gecko.StringAndBooleanDelegateCallback { public *; }
+-keep public interface com.vuplex.webview.gecko.StringAndObjectCallback { public *; }
+-keep public interface com.vuplex.webview.gecko.VuplexCallback { public *; }
+
+# --- End of section for 3D WebView for Android with Gecko Engine ---

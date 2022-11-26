@@ -14,7 +14,7 @@ namespace DCL
         private const float MAX_GLOBAL_MSG_BUDGET = 0.01f;
         private const float MAX_SYSTEM_MSG_BUDGET_FOR_FAR_SCENES = 0.003f;
 
-        private const float GLTF_BUDGET_MAX = 0.036f;
+        private const float GLTF_BUDGET_MAX = 0.066f;
         private const float GLTF_BUDGET_MIN = 0.004f;
 
         public const string GLOBAL_MESSAGING_CONTROLLER = "global_messaging_controller";
@@ -301,7 +301,7 @@ namespace DCL
                         break;
 
                     //todo:Clint work the yield frequency into the performance manager.) Reduce to throttle loading items, open up to allow faster loading and communication.
-                     if (CommonScriptableObjects.rendererState.Get() && (i % 15 == 0))
+                     if (CommonScriptableObjects.rendererState.Get() && (i % 40 == 0))
                      {
                          yield return null;
                      }

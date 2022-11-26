@@ -30,7 +30,7 @@ namespace DCL.Components
         private DCLTexture dclTexture = null;
 
         private static readonly int _BaseMap = Shader.PropertyToID("_BaseMap");
-        private static readonly int _AlphaClip = Shader.PropertyToID("_AlphaClip");
+        static readonly int _AlphaClip = Shader.PropertyToID("_AlphaClip");
         private static readonly int _Cutoff = Shader.PropertyToID("_Cutoff");
         private static readonly int _ZWrite = Shader.PropertyToID("_ZWrite");
 
@@ -85,8 +85,20 @@ namespace DCL.Components
                             {
                                 dclTexture.DetachFrom(this);
                             }
-
-                            material.SetTexture(_BaseMap, downloadedTexture.texture);
+                           
+                            if (downloadedTexture.GetType().Name == "DCLVideoTexture")
+                            {
+                                //VR change shader for AVProVideoPlayer
+                                #if !UNITY_EDITOR && UNITY_ANDROID
+                                 //material.shader = Shader.Find("AVProVideo/Unlit/Opaque (texture+color+stereo support) - Android OES ONLY");
+                                material.shader = Shader.Find("AVProVideo/Unlit/Opaque (texture+color+fog+stereo support)");
+                                #else
+                                material.shader = Shader.Find("AVProVideo/Unlit/Opaque (texture+color+fog+stereo support)");
+                                #endif
+                                material.SetTexture(Shader.PropertyToID("_MainTex"), downloadedTexture.texture);
+                            }
+                            else
+                                material.SetTexture(_BaseMap, downloadedTexture.texture);
                             dclTexture = downloadedTexture;
                             dclTexture.AttachTo(this);
                         }

@@ -53,7 +53,7 @@ MonoBehaviour:
     alphaPacking: 0
     stereoPacking: 0
   _autoOpen: 1
-  _autoPlayOnStart: 0
+  _autoPlayOnStart: 1
   _loop: 0
   _audioVolume: 1
   _audioBalance: 0
@@ -138,7 +138,7 @@ MonoBehaviour:
       overrideDecryptionKeyBase64: 
       overrideDecryptionKey: 
     textureFormat: 0
-    audioMode: 0
+    _audioMode: 0
     _flags: 0
     maximumPlaybackRate: 2
     _preferredPeakBitRate: 0
@@ -154,7 +154,7 @@ MonoBehaviour:
       overrideDecryptionKeyBase64: 
       overrideDecryptionKey: 
     textureFormat: 0
-    audioMode: 0
+    _audioMode: 0
     _flags: 0
     maximumPlaybackRate: 2
     _preferredPeakBitRate: 0
@@ -170,7 +170,7 @@ MonoBehaviour:
       overrideDecryptionKeyBase64: 
       overrideDecryptionKey: 
     textureFormat: 0
-    audioMode: 0
+    _audioMode: 0
     _flags: 0
     maximumPlaybackRate: 2
     _preferredPeakBitRate: 0
@@ -189,15 +189,15 @@ MonoBehaviour:
     _customPreferredMaximumResolution: {x: 0, y: 0}
     _preferredPeakBitRate: 0
     _preferredPeakBitRateUnits: 1
-    videoApi: 2
+    videoApi: 1
     useFastOesPath: 0
-    showPosterFrame: 0
+    showPosterFrame: 1
     audioOutput: 0
     audio360ChannelMode: 0
     preferSoftwareDecoder: 0
     blitTextureFiltering: 0
     fileOffset: 0
-    startWithHighestBitrate: 0
+    startWithHighestBitrate: 1
     minBufferMs: 50000
     maxBufferMs: 50000
     bufferForPlaybackMs: 2500

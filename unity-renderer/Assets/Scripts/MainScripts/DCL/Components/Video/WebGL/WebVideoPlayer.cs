@@ -51,6 +51,7 @@ namespace DCL.Components.Video.Plugin
                         isReady = true;
 
                         texture = plugin.PrepareTexture(videoPlayerId);
+                        
                     }
 
                     if (playWhenReady)

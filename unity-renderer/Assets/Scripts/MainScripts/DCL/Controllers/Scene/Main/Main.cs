@@ -40,7 +40,7 @@ namespace DCL
             }
             
             i = this;
-           
+            DataStore.i.featureFlags.flags.OnChange += FeatureFlagsReady;
             mixedRealityPlayspace = VRPlaySpace.i.transform;
             mixedRealityPlayspace.parent = cameraParent;
             mixedRealityPlayspace.localPosition = new Vector3(0f, -0.85f, 0f);;

@@ -16,9 +16,7 @@
         "GUID:cf71c1f6d6d568145b1305f1a524c897"
     ],
     "includePlatforms": [],
-    "excludePlatforms": [
-        "WebGL"
-    ],
+    "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
     "precompiledReferences": [],
